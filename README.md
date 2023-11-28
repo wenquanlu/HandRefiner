@@ -34,3 +34,6 @@ readily available synthetic data without suffering from the
 domain gap between realistic and synthetic hands.
 
 # Visual Results
+<figure>
+<img src="Figs/github_results.png">
+</figure>
