@@ -3,13 +3,13 @@
 
 # News
 
-**2023.11.28**
-
+**2023.11.29**
+The paper is post on arxiv! The code will be released soon.
 
 
 # Introduction
 
-This is the official repository of the paper <a href=""> HandRefiner: Refining Malformed Hands in Generated Images by Diffusion-based Conditional Inpainting </a>
+This is the official repository of the paper <a href="https://arxiv.org/abs/2311.17957"> HandRefiner: Refining Malformed Hands in Generated Images by Diffusion-based Conditional Inpainting </a>
 
 <figure>
 <img src="Figs/banner.png">
