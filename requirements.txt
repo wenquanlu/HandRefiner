@@ -22,4 +22,4 @@ transformers==4.27.4
 trimesh==3.23.5
 yacs==0.1.8
 
-If encounter any error, please see ControlNet and MeshGraphormer for more complete package requirements.
+# If encounter any error, please see ControlNet and MeshGraphormer for more complete package requirements.
