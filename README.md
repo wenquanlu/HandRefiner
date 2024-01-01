@@ -64,7 +64,7 @@ python handrefiner.py --input_dir test --out_dir output --strength 0.55 --weight
 <ul>
 <li> <b>What kind of images can be rectified?</b></li>
 
-Like any method, this method also has its limits. If the original hands are so bad that are inrecognisable from human eyes, then it is pretty much impossible for neural networks to fit a resonable mesh. Also, due to the fitting nature of the method, we do not rectify the hand size. So if you have a giant malformed hand in the original image, you will still get a giant hand back in the rectified image. Thus malformed hands with hand-like shape and appropriate size can be rectified. 
+Like any method, this method also has its limits. If the original hands are so bad that are inrecognisable from human eyes, then it is pretty much impossible for neural networks to fit a reasonable mesh. Also, due to the fitting nature of the method, we do not rectify the hand size. So if you have a giant malformed hand in the original image, you will still get a giant hand back in the rectified image. Thus malformed hands with hand-like shape and appropriate size can be rectified. 
 
 <li> <b>Can we use it on SDXL images?</b>
 
