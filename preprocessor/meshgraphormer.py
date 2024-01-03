@@ -30,7 +30,7 @@ from torchvision import transforms
 import numpy as np
 import cv2
 from trimesh import Trimesh
-from trimesh.ray.ray_pyembree import RayMeshIntersector
+from trimesh.ray.ray_triangle import RayMeshIntersector
 from matplotlib import pyplot
 
 import mediapipe as mp
@@ -38,6 +38,7 @@ from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 from config import handrefiner_root
 from torchvision import transforms
+from packaging import version
 
 args = Namespace(
     num_workers=4,
@@ -62,6 +63,11 @@ args = Namespace(
     seed=88
 )
 
+#Since mediapipe v0.10.5, the hand category has been correct
+if version.parse(mp.__version__) >= version.parse('0.10.5'):
+    true_hand_category = {"Right": "right", "Left": "left"}
+else:
+    true_hand_category = {"Right": "left", "Left": "right"}
 
 class MeshGraphormerMediapipe(Preprocessor):
     def __init__(self, args=args) -> None:
@@ -330,10 +336,7 @@ class MeshGraphormerMediapipe(Preprocessor):
         depth_failure = False
         crop_lens = []
         for idx in range(len(hand_landmarks_list)):
-            if handedness_list[idx][0].category_name == "Right":  # the left hand
-                hand = "left"
-            else:
-                hand = "right"
+            hand = true_hand_category[handedness_list[idx][0].category_name]
             hands.append(hand)
             hand_landmarks = hand_landmarks_list[idx]
             handedness = handedness_list[idx]
