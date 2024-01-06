@@ -3,7 +3,7 @@ azureml==0.2.7
 chumpy==0.70
 einops==0.7.0
 matplotlib==3.7.1
-mediapipe==0.10.0
+mediapipe
 numpy==1.23.5
 omegaconf==2.1.1
 opencv_contrib_python==4.7.0.72
@@ -19,7 +19,7 @@ torch==2.0.0
 torchvision==0.15.1
 tqdm==4.65.0
 transformers==4.27.4
-trimesh==3.23.5
+trimesh[easy]==3.23.5
 yacs==0.1.8
 
 # If encounter any error, please see ControlNet and MeshGraphormer for more complete package requirements.
