@@ -10,6 +10,8 @@ The paper is post on arxiv!
 **2023.12.29**
 First code commit released.
 
+**2024.1.7**
+The preprocessor and the finetuned model have been ported to [ComfyUI controlnet](https://github.com/Fannovel16/comfyui_controlnet_aux). The preprocessor has been ported to [sd webui controlnet](https://github.com/Mikubill/sd-webui-controlnet). Thanks for all your great work!
 
 # Introduction
 
