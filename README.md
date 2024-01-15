@@ -13,6 +13,9 @@ First code commit released.
 **2024.1.7**
 The preprocessor and the finetuned model have been ported to [ComfyUI controlnet](https://github.com/Fannovel16/comfyui_controlnet_aux). The preprocessor has been ported to [sd webui controlnet](https://github.com/Mikubill/sd-webui-controlnet). Thanks for all your great work!
 
+**2024.1.15**
+⚠️ When using finetuned ControlNet from this repository or [control_sd15_inpaint_depth_hand_fp16.safetensors](https://huggingface.co/hr16/ControlNet-HandRefiner-pruned), I noticed many still use control strength/control weight of 1 which can result in loss of texture. As stated in the paper, we recommend using a smaller control strength (e.g. 0.4 - 0.8).
+
 # Introduction
 
 This is the official repository of the paper <a href="https://arxiv.org/abs/2311.17957"> HandRefiner: Refining Malformed Hands in Generated Images by Diffusion-based Conditional Inpainting </a>
