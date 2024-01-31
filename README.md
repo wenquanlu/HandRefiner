@@ -97,10 +97,6 @@ Generally, hands with size at least 60px &#215; 60px is recommended for the curr
 
 In the last decade, the CV community has produced dozens of highly accurate mesh reconstruction models, in this project we use the recent SOTA model Mesh Graphormer on the FreiHAND benchmark. However, it is very welcome to contribute to this project by porting other models here, I have written a template parent class for models under preprocessor folder.
 
-<li> <b> Why use other model if Mesh Graphormer is already SOTA? </b>
-
-In this project, we leverage mesh reconstruction model to project these malformed hands onto a reasonable pose space, Mesh Graphormer is only SOTA in terms of reconstructing mesh given correct hand pictures. In particular, Mesh Graphormer utilises a model-free approach to reconstruct hand mesh, through our experiments, this approach is usually more accurate (i.e., more natural appearance ) but less robust (i.e., higher failed reconstruction rate). Another common approach is model-based which uses a parametric deformable hand model to reconstruct mesh, this approach is usually more robust (i.e., lower failed reconstruction rate) but less accurate (i.e., less natural appearance).
-
 <li> <b>Can I use it for Anime hands or other styles?</b>
 
 As long as the hand detection model and the mesh reconstruction model are able to detect the hands and reconstruct meshes, it should work for other styles. However, from my understanding, these models are not trained on cartoon or anime images, so there is a great chance that the mesh reconstruction stage may fail. 
