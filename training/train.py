@@ -1,56 +1,58 @@
-import json
-import cv2
-import numpy as np
+from ldm.data.control_synthcompositedata import Control_composite_Hand_synth_data
+import torch
+import pytorch_lightning as pl
+from torch.utils.data import DataLoader
+from cldm.model import create_model, load_state_dict
+from pytorch_lightning.callbacks import ModelCheckpoint, Callback, LearningRateMonitor
+from einops import rearrange
 from PIL import Image
-import random
+import numpy as np
+import os
+from cldm.logger import ImageLogger
+import argparse
 
-from torch.utils.data import Dataset
+parser = argparse.ArgumentParser()
+parser.add_argument("--devices", default="0", type=str, help="comma delimited list of devices")
+parser.add_argument("--batchsize", default=4, type=int)
+parser.add_argument("--acc_grad", default=4, type=int)
+parser.add_argument("--max_epochs", default=3, type=int)
+args = parser.parse_args()
+args.devices = [int(n) for n in args.devices.split(",")]
 
-DATA_PATH_1 = "../RHD/RHD_published_v2/"
-DATA_PATH_2 = "../synthesisai/"
+def get_state_dict(d):
+    return d.get('state_dict', d)
+def load_state_dict(ckpt_path, location='cpu'):
+    _, extension = os.path.splitext(ckpt_path)
+    if extension.lower() == ".safetensors":
+        import safetensors.torch
+        state_dict = safetensors.torch.load_file(ckpt_path, device=location)
+    else:
+        state_dict = get_state_dict(torch.load(ckpt_path, map_location=torch.device(location)))
+    state_dict = get_state_dict(state_dict)
+    print(f'Loaded state_dict from [{ckpt_path}]')
+    return state_dict
 
-abbrev_dict = {"RHD": DATA_PATH_1, 
-                "synthesisai": DATA_PATH_2}
+learning_rate = 1e-5
 
-class Control_composite_Hand_synth_data(Dataset):
-    def __init__(self):
-        self.data = []
-        with open('../RHD/RHD_published_v2/embedded_rgb_caption.json', 'rt') as f1:
-            for line in f1:
-                item = json.loads(line)
-                item['dataset'] = 'RHD'
-                self.data.append(item)     
-        with open('../synthesisai/embedded_rgb_caption.json', 'rt') as f2:
-            for line in f2:
-                item = json.loads(line)
-                item['dataset'] = 'synthesisai'
-                self.data.append(item)     
-    def __len__(self):
-        return len(self.data)
-    
-    def __getitem__(self, idx):
-        item = self.data[idx]
-        source_filename = item['jpg']
-        prompt = item['txt']   
-        dataset = item['dataset']
-        datapath = abbrev_dict[dataset]
-        if random.random() < 0.5:
-            prompt = ""
-        source = cv2.imread(datapath + "image/" + source_filename)
-        source = (source.astype(np.float32) / 127.5) - 1.0
-        source = cv2.cvtColor(source, cv2.COLOR_BGR2RGB)
+model = create_model("./models/control_depth_inpaint.yaml")
 
-        mask = np.array(Image.open(datapath + "mask/" + source_filename).convert("L"))
-        mask = mask.astype(np.float32)/255.0
-        mask = mask[None]
-        mask[mask < 0.5] = 0
-        mask[mask >= 0.5] = 1
-        mask = np.transpose(mask, [1, 2, 0])
+#### load the SD inpainting weights
+states = load_state_dict("./sd-v1-5-inpainting.ckpt", location='cpu')
+model.load_state_dict(states, strict=False)
 
-        hint = cv2.imread(datapath + "pose/" + source_filename)
-        hint = cv2.cvtColor(hint, cv2.COLOR_BGR2RGB)
+control_states = load_state_dict("./models/control_v11f1p_sd15_depth.pth")
+model.load_state_dict(control_states, strict=False)
 
-        hint = hint.astype(np.float32) / 255.0
 
-        masked_image = source * (mask < 0.5)
-        return dict(jpg=source, txt=prompt, hint=hint, mask=mask, masked_image=masked_image)
+model.learning_rate = learning_rate
+model.sd_locked = True
+model.only_mid_control = False
+
+dataset = Control_composite_Hand_synth_data()
+
+checkpoint_callback = ModelCheckpoint(save_top_k=-1, monitor="epoch")
+
+#### start of the training expectation: the model should behave the same to standalone depth controlnet + inpainting SD
+dataloader = DataLoader(dataset, num_workers=8, batch_size=args.batchsize, shuffle=True)
+trainer = pl.Trainer(precision=32, max_epochs=args.max_epochs, accelerator="gpu", devices=args.devices, accumulate_grad_batches=args.acc_grad, callbacks=[ImageLogger(), checkpoint_callback], strategy='ddp')
+trainer.fit(model, dataloader)
