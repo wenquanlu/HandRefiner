@@ -34,7 +34,7 @@ def load_state_dict(ckpt_path, location='cpu'):
 
 learning_rate = 1e-5
 
-model = create_model("./models/control_depth_inpaint.yaml")
+model = create_model("control_depth_inpaint.yaml")
 
 #### load the SD inpainting weights
 states = load_state_dict("./sd-v1-5-inpainting.ckpt", location='cpu')
