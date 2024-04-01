@@ -113,7 +113,7 @@ If you find HandRefiner helpful, please consider giving this repo a star :star: 
 ```
 @article{lu2023handrefiner,
    title={HandRefiner: Refining Malformed Hands in Generated Images by Diffusion-based Conditional Inpainting},
-   author={Lu, Wenquan and Xu, Yufei and Zhang, Jing and Wang, Chaoyue and Tao, Dacheng},
+   author={Wenquan Lu and Yufei Xu and Jing Zhang and Chaoyue Wang and Dacheng Tao},
    journal={arXiv preprint arXiv:2311.17957},
    year={2023}
 }
