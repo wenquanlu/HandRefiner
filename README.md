@@ -111,12 +111,10 @@ As long as the hand detection model and the mesh reconstruction model are able t
 If you find HandRefiner helpful, please consider giving this repo a star :star: and citing:
 
 ```
-@misc{lu2023handrefiner,
-      title={HandRefiner: Refining Malformed Hands in Generated Images by Diffusion-based Conditional Inpainting}, 
-      author={Wenquan Lu and Yufei Xu and Jing Zhang and Chaoyue Wang and Dacheng Tao},
-      year={2023},
-      eprint={2311.17957},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
+@article{lu2023handrefiner,
+   title={HandRefiner: Refining Malformed Hands in Generated Images by Diffusion-based Conditional Inpainting},
+   author={Lu, Wenquan and Xu, Yufei and Zhang, Jing and Wang, Chaoyue and Tao, Dacheng},
+   journal={arXiv preprint arXiv:2311.17957},
+   year={2023}
 }
 ```
