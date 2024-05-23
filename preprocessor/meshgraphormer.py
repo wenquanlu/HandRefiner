@@ -82,6 +82,14 @@ class MeshGraphormerMediapipe(Preprocessor):
         set_seed(args.seed, args.num_gpus)
         #logger.info("Using {} GPUs".format(args.num_gpus))
 
+        if args.device == "cuda" or args.device == "mps":
+            if torch.cuda.is_available():
+                args.device = "cuda"
+            else:
+                args.device = "mps"
+        else:
+            args.device = "cpu"
+
         # Mesh and MANO utils
         mano_model = MANO().to(args.device)
         mano_model.layer = mano_model.layer.cuda()
