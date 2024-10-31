@@ -111,10 +111,21 @@ As long as the hand detection model and the mesh reconstruction model are able t
 If you find HandRefiner helpful, please consider giving this repo a star :star: and citing:
 
 ```
-@article{lu2023handrefiner,
-   title={HandRefiner: Refining Malformed Hands in Generated Images by Diffusion-based Conditional Inpainting},
-   author={Wenquan Lu and Yufei Xu and Jing Zhang and Chaoyue Wang and Dacheng Tao},
-   journal={arXiv preprint arXiv:2311.17957},
-   year={2023}
+@inproceedings{10.1145/3664647.3680693,
+author = {Lu, Wenquan and Xu, Yufei and Zhang, Jing and Wang, Chaoyue and Tao, Dacheng},
+title = {HandRefiner: Refining Malformed Hands in Generated Images by Diffusion-based Conditional Inpainting},
+year = {2024},
+isbn = {9798400706868},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3664647.3680693},
+doi = {10.1145/3664647.3680693},
+abstract = {Diffusion models have achieved remarkable success in generating realistic images but suffer from generating accurate human hands, such as incorrect finger counts or irregular shapes. This difficulty arises from the complex task of learning the physical structure and pose of hands from training images, which involves extensive deformations and occlusions. For correct hand generation, our paper introduces a lightweight post-processing solution called HandRefiner. HandRefiner employs a conditional inpainting approach to rectify malformed hands while leaving other parts of the image untouched. We leverage the hand mesh reconstruction model that consistently adheres to the correct number of fingers and hand shape, while also being capable of fitting the desired hand pose in the generated image. Given a generated failed image due to malformed hands, we utilize ControlNet modules to re-inject such correct hand information. Additionally, we uncover a phase transition phenomenon within ControlNet as we vary the control strength. It enables us to take advantage of more readily available synthetic data without suffering from the domain gap between realistic and synthetic hands. Experiments demonstrate that HandRefiner can significantly improve the generation quality quantitatively and qualitatively. The code is available at https://github.com/wenquanlu/HandRefiner.},
+booktitle = {Proceedings of the 32nd ACM International Conference on Multimedia},
+pages = {7085–7093},
+numpages = {9},
+keywords = {deep learning, diffusion models, image inpainting},
+location = {Melbourne VIC, Australia},
+series = {MM '24}
 }
 ```
